@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ImageStatusController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -23,3 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/images', [ImageController::class, 'getImages']);
+
+Route::get('/image-statuses', [ImageStatusController::class, 'getImageStatus']);
+
+Route::post('/submit-swipe-data', [ImageController::class, 'updateImageStatus']);
