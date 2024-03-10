@@ -18,8 +18,12 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
+            $user = Auth::user();
             $token = Auth::user()->createToken('auth-token')->accessToken;
-            return response()->json(['token' => $token], 200);
+            return response()->json([
+                'token' => $token,
+                'name' => $user->name
+            ], 200);
         }
 
         throw ValidationException::withMessages(['error' => 'Invalid credentials']);

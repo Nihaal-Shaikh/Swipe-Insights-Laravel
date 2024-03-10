@@ -32,7 +32,7 @@ class ImageController extends Controller
     {
         try {
             $swipeData = $request->input('swipeData');
-            $userId = $request->input('user_id');
+            $userId = intval($request->input('user_id'));
 
             // Extract unique values from swipeData
             $uniqueValues = array_unique($swipeData);
@@ -54,7 +54,7 @@ class ImageController extends Controller
             
                     if ($statusId !== null) {
                         $image->image_status_id = $statusId;
-                        $image->updated_by = $userId; // Use $userId instead of $request->get('user_id')
+                        $image->customer_id = $userId;
                         $image->save();
                     }
                 }
