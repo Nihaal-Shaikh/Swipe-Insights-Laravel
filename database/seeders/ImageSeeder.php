@@ -33,10 +33,10 @@ class ImageSeeder extends Seeder
             file_put_contents($path, $imageData);
 
             Image::create([
-                'customer_id' => $faker->randomNumber(5),
+                'customer_id' => $faker->numberBetween(1, 5),
                 'image_name' => $imageName,
-                'image_status_id' => $faker->numberBetween(1, 5),
-                'operator_id' => $faker->randomNumber(5),
+                'image_status_id' => $faker->numberBetween(1, 4),
+                'operator_id' => $faker->numberBetween(1, 5),
                 'active' => $faker->boolean(),
                 'created_by' => null,
                 'updated_by' => null,
