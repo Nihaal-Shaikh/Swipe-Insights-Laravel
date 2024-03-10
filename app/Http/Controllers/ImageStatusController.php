@@ -15,4 +15,11 @@ class ImageStatusController extends Controller
     
         return response()->json(['imageStatuses' => $imageStatuses]);
     }
+
+    public function listImageStatus()
+    {
+        $imageStatus = ImageStatus::get();
+    
+        return response()->json($imageStatus);
+    }
 }

@@ -32,3 +32,5 @@ Route::post('/submit-swipe-data', [ImageController::class, 'updateImageStatus'])
 /* Admin Routes */
 
 Route::get('/web-admin/images', [ImageController::class, 'listImages']);
+
+Route::get('/web-admin/image-status', [ImageStatusController::class, 'listImageStatus']);
