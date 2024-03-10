@@ -11,8 +11,7 @@ class ImageController extends Controller
     public function getImages()
     {
         // Fetch 5 active images from the database
-        $images = Image::where('image_status_id', '!=', 0)
-            ->where('active', 1)
+        $images = Image::where('active', 1)
             ->whereIn('image_status_id', [1, 2])
             ->take(5)
             ->pluck('image_name');
