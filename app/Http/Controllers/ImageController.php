@@ -67,5 +67,17 @@ class ImageController extends Controller
             return response()->json(['success' => false, 'message' => 'Error updating image status'], 500);
         }
     }
+    
+    public function listImages()
+    {
+        $images = Image::with(['status' => function ($query) {
+            $query->orderByRaw("FIELD(status, 'Default', 'Unsure') DESC");
+        }, 'user'])
+        ->orderBy('image_status_id')
+        ->get();
+    
+
+        return response()->json($images);
+    }
 
 }
