@@ -38,3 +38,5 @@ Route::get('/web-admin/image-status', [ImageStatusController::class, 'listImageS
 Route::post('/web-admin/add-image-status', [ImageStatusController::class, 'addImageStatus']);
 
 Route::get('/web-admin/edit-image-status/{id}', [ImageStatusController::class, 'editImageStatus']);
+
+Route::delete('/web-admin/delete-image-status/{id}', [ImageStatusController::class, 'deleteImageStatus']);

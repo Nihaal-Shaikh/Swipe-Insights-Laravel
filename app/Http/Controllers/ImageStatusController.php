@@ -47,7 +47,7 @@ class ImageStatusController extends Controller
             if($active === 1 && $activeCount >= 2 && $imageStatus->active === 0) {
                 return response()->json(['message' => '2 entries are already active'], 200);
             }
-            
+
             if ($imageStatus) {
                 $imageStatus->update($newStatusData);
                 return response()->json(['message' => 'Image status updated successfully'], 200);
@@ -83,5 +83,17 @@ class ImageStatusController extends Controller
             return response()->json(['error' => 'Image status not found.'], 404);
         }
 
+    }
+    
+    public function deleteImageStatus($id)
+    {
+        try {
+            $imageStatus = ImageStatus::findOrFail($id);
+            $imageStatus->delete();
+
+            return response()->json(['message' => 'Image status deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Image status not found.'], 404);
+        }
     }
 }
