@@ -25,6 +25,7 @@ class AuthController extends Controller
             // Additional check for updated entries
             $updatedEntriesCount = $user->images()
                 ->where('customer_id', $user->id)
+                ->where('active', 1)
                 ->where('updated_at', '>', Carbon::now()->subDay())
                 ->count();
 

@@ -54,6 +54,7 @@ class ImageController extends Controller
                     if ($statusId !== null) {
                         $image->image_status_id = $statusId;
                         $image->customer_id = $userId;
+                        $image->operator_id = $userId;
                         $image->save();
                     }
                 }
