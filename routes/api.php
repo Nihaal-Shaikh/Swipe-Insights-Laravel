@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ImageStatusController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +20,23 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/images', [ImageController::class, 'getImages']);
+
+Route::get('/image-statuses', [ImageStatusController::class, 'getImageStatus']);
+
+Route::post('/submit-swipe-data', [ImageController::class, 'updateImageStatus']);
+
+/* Admin Routes */
+
+Route::get('/web-admin/images', [ImageController::class, 'listImages']);
+
+Route::get('/web-admin/image-status', [ImageStatusController::class, 'listImageStatus']);
+
+Route::post('/web-admin/add-image-status', [ImageStatusController::class, 'addImageStatus']);
+
+Route::get('/web-admin/edit-image-status/{id}', [ImageStatusController::class, 'editImageStatus']);
+
+Route::delete('/web-admin/delete-image-status/{id}', [ImageStatusController::class, 'deleteImageStatus']);
