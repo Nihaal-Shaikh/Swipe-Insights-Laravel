@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Carbon;
 
 class AuthController extends Controller
 {
@@ -20,9 +21,17 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $token = Auth::user()->createToken('auth-token')->accessToken;
+
+            // Additional check for updated entries
+            $updatedEntriesCount = $user->images()
+                ->where('customer_id', $user->id)
+                ->where('updated_at', '>', Carbon::now()->subDay())
+                ->count();
+
             return response()->json([
                 'token' => $token,
-                'name' => $user->name
+                'name' => $user->name,
+                'updatedFiveEntries' => ($updatedEntriesCount >= 5) ? 1 : 0
             ], 200);
         }
 
