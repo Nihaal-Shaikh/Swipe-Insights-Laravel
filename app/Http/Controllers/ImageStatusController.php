@@ -29,9 +29,12 @@ class ImageStatusController extends Controller
         $active = intval($request->input('active'));
     
         // Check if there are already 2 active entries, ignoring default and unsure status
-        $activeCount = ImageStatus::where('active', 1)
-            ->whereNotIn('status', ['Default', 'Unsure'])
-            ->count();
+        $activeRecords = ImageStatus::where('active', 1)
+        ->whereNotIn('status', ['Default', 'Unsure'])
+        ->get(['id']);
+    
+    $activeCount = $activeRecords->count();
+    $activeIds = $activeRecords->pluck('id')->toArray();
     
         // Mark the new entry as inactive if 2 entries are already active
         $newStatusData = [
@@ -43,9 +46,15 @@ class ImageStatusController extends Controller
             // If an 'id' is provided, update the existing entry
             $imageStatus = ImageStatus::find($id);
 
+            $alreadyActiveEntry = in_array($id, $activeIds);
+
+            if($alreadyActiveEntry) {
+                $newStatusData['active'] = $request->input('active');
+            }
+
             // If entry is being made active when there are already 2 active entries
             if($active === 1 && $activeCount >= 2 && $imageStatus->active === 0) {
-                return response()->json(['message' => '2 entries are already active'], 200);
+                return response()->json(['message' => '2 swipe options are already active, please make one inactive before activating this one'], 200);
             }
 
             if ($imageStatus) {
