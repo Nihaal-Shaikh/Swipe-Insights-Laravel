@@ -70,14 +70,22 @@ class ImageController extends Controller
     
     public function listImages()
     {
+        $baseUrl = asset('storage/images/');
+        
         $images = Image::with(['status' => function ($query) {
             $query->orderByRaw("FIELD(status, 'Default', 'Unsure') DESC");
-        }, 'user'])
-        ->orderBy('image_status_id')
+        }])
+        ->leftJoin('users', 'images.customer_id', '=', 'users.id')
+        ->select('images.*', 'users.name as user')
+        ->orderBy('images.image_status_id')
         ->get();
     
-
+        // Add image_path to each image object
+        foreach ($images as $image) {
+            $image->image_path = $baseUrl . '/' . $image->image_name;
+        }
+    
         return response()->json($images);
-    }
+    }    
 
 }
